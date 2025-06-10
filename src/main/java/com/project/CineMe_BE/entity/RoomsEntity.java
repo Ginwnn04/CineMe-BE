@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.util.List;
 
 @Entity
-@Table(name = "movies")
+@Table(name = "rooms")
 @Setter
 @Getter
 @Builder

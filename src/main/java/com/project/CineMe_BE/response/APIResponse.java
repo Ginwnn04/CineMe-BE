@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class APIResponse {
     @Builder.Default
-    private boolean sucess = true;
+    private boolean success = true;
     private Integer code;
     private String message;
     private Object result;
@@ -25,23 +25,8 @@ public class APIResponse {
     public static APIResponse ok(Object result) {
         return APIResponse.builder()
                           .code(200)
-                          .sucess(true)
+                          .success(true)
                           .result(result)
-                          .build();
-    }
-
-    /**
-     * Generate APIResponse with code 200
-     * @param result
-     * @param message
-     * @return
-     */
-    public static APIResponse ok(Object result, String message) {
-        return APIResponse.builder()
-                          .code(200)
-                          .sucess(true)
-                          .result(result)
-                          .message(message)
                           .build();
     }
 }
