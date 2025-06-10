@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoviesEntity {
+public class MovieEntity {
     @Id
     @Column(name = "id")
     private UUID id;
