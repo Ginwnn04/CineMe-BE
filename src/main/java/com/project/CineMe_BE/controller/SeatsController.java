@@ -1,22 +1,42 @@
 package com.project.CineMe_BE.controller;
 
 import com.project.CineMe_BE.dto.response.SeatResponse;
+import com.project.CineMe_BE.response.APIResponse;
 import com.project.CineMe_BE.service.SeatService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import com.project.CineMe_BE.dto.request.SeatRequest;
 
 @RestController
 @RequiredArgsConstructor
 public class SeatsController {
     private final SeatService seatService;
     
-    @GetMapping("/v1/rooms/{roomId}")
-    public List<SeatResponse> getSeatsByRoomId(@PathVariable("roomId") UUID roomId) {
-        return seatService.getSeatsByRoomId(roomId);
+    @GetMapping("/api/v1/seats/{roomId}")
+    public ResponseEntity<APIResponse> getSeatsByRoomId(@PathVariable("roomId") UUID roomId) {
+        List<SeatResponse> result = seatService.getSeatsByRoomId(roomId);
+         APIResponse response = APIResponse.builder()
+                                          .message("Lấy danh sách ghế thành công")
+                                          .result(result)
+                                          .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/api/v1/seat")
+    public ResponseEntity<APIResponse> createSeats(@RequestBody SeatRequest seatRequest) {
+        Boolean isCreated = seatService.create(seatRequest);
+        APIResponse response = APIResponse.builder()
+                                          .message(isCreated ? "Tạo ghế thành công" : "Tạo ghế thất bại")
+                                          .result(isCreated)
+                                          .build();
+        return ResponseEntity.ok(response);
     }
 }
