@@ -69,7 +69,8 @@ public class SeatServiceImpl implements SeatService{
             resultEntity.add(seatsEntity);
         }
         
-        return seatsRepository.saveAll(resultEntity) != null;
+        seatsRepository.bulkInsert(resultEntity);
+        return true;
     }
 
     
