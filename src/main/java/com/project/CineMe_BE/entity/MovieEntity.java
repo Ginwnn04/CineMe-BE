@@ -63,11 +63,13 @@ public class MovieEntity {
     @Column(name = "time")
     private Long time;
 
-    @Column(name = "limitage_id")
-    private UUID limitageId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "limitage_id")
+    private LimitageEntity limitage;
 
-    @Column(name = "language_id")
-    private UUID languageId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "language_id")
+    private LanguageEntity language;
 
     @Column(name = "sortorder")
     private Long sortorder;

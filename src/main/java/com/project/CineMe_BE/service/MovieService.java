@@ -1,13 +1,13 @@
 package com.project.CineMe_BE.service;
 
 import com.project.CineMe_BE.dto.response.MovieResponse;
-import com.project.CineMe_BE.entity.MovieEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface MovieService {
 
     public List<MovieResponse> getAllMovie();
-
+    public MovieResponse getMovieDetail(UUID id);
 
 }

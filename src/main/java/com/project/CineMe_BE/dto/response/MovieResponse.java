@@ -1,5 +1,6 @@
 package com.project.CineMe_BE.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MovieResponse {
+
     private UUID id;
     private String nameVn;
     private String nameEn;
@@ -25,8 +28,10 @@ public class MovieResponse {
     private String status;
     private String ratings;
     private Long time;
-    private UUID limitageId;
-    private UUID languageId;
+    private String limitageNameVn;
+    private String limitageNameEn;
+    private String languageNameVn;
+    private String languageNameEn;
     private Long sortorder;
 
 
