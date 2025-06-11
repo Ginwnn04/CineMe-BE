@@ -1,7 +1,7 @@
 package com.project.CineMe_BE.controller;
 
+import com.project.CineMe_BE.dto.APIResponse;
 import com.project.CineMe_BE.dto.response.SeatResponse;
-import com.project.CineMe_BE.response.APIResponse;
 import com.project.CineMe_BE.service.SeatService;
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +24,7 @@ public class RoomController {
         List<SeatResponse> result = seatService.getSeatsByRoomId(roomId);
          APIResponse response = APIResponse.builder()
                                           .message("Lấy danh sách ghế của room thành công")
-                                          .result(result)
+                                          .data(result)
                                           .build();
         return ResponseEntity.ok(response);
     }
