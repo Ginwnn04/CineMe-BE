@@ -1,6 +1,6 @@
 package com.project.CineMe_BE.controller;
 
-import com.project.CineMe_BE.response.APIResponse;
+import com.project.CineMe_BE.dto.APIResponse;
 import com.project.CineMe_BE.service.SeatService;
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +22,7 @@ public class SeatsController {
         Boolean isCreated = seatService.create(seatRequest);
         APIResponse response = APIResponse.builder()
                                           .message(isCreated ? "Tạo ghế thành công" : "Tạo ghế thất bại")
-                                          .result(isCreated)
+                                          .data(isCreated)
                                           .build();
         return ResponseEntity.ok(response);
     }

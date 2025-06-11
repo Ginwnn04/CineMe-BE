@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -73,5 +74,13 @@ public class MovieEntity {
 
     @Column(name = "sortorder")
     private Long sortorder;
+
+    @ManyToMany
+    @JoinTable(
+            name = "movie_actor",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
+    private List<ActorEntity> listActor;
 
 }

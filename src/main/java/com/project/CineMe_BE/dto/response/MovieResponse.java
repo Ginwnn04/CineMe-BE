@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -33,6 +34,6 @@ public class MovieResponse {
     private String languageNameVn;
     private String languageNameEn;
     private Long sortorder;
-
+    private List<ActorResponse> listActor;
 
 }
