@@ -14,21 +14,7 @@ import java.util.UUID;
 public interface MovieRequestMapper extends BaseRequestMapper<MovieRequest, MovieEntity> {
     @Mapping(target = "trailer", ignore = true)
     @Mapping(target = "image", ignore = true)
-    @Mapping(target = "language", source = "languageId")
-    @Mapping(target = "format", source = "formatId")
-    @Mapping(target = "country", source = "countryId")
     MovieEntity toEntity(MovieRequest dto);
-
-    default LanguageEntity mapLanguage(UUID id) {
-        if (id == null) return null;
-        return LanguageEntity.builder()
-                .id(id)
-                .build();
-    }
-
-
-
-
 
 
     @Mapping(target = "trailer", ignore = true)
