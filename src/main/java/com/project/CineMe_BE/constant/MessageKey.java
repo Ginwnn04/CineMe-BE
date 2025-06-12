@@ -46,6 +46,7 @@ public class MessageKey {
     public static final String SEAT_DELETE_SUCCESS = "seat.delete_success";
     public static final String SEAT_NOT_FOUND = "seat.not_found";
     public static final String SEAT_GET_DETAILS = "seat.get_details";
+    public static final String SEAT_GET_LIST = "seat.get_all";
 
     // Language
     public static final String LANGUAGE_CREATE_SUCCESS = "language.create_success";
