@@ -18,7 +18,7 @@ import java.util.UUID;
 @Slf4j
 public class MinioService {
     private final MinioClient minioClient;
-    private final String bucketName = "resource";
+    private final String bucketName = "resources";
 
     @PostConstruct
     private void init() {

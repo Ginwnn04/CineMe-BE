@@ -1,6 +1,7 @@
 package com.project.CineMe_BE.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Table(name = "languages")
 @Setter
 @Getter
+@Builder
 public class LanguageEntity {
     @Id
     @Column(name = "id")
