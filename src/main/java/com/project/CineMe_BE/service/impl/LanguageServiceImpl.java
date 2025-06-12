@@ -40,6 +40,7 @@ public class LanguageServiceImpl implements LanguageService {
         LanguageEntity entity = languageRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Language not found with id: " + id));
         requestMapper.update(entity, languageRequest);
+        languageRepository.save(entity);
         return responseMapper.toDto(entity);
     }
 
