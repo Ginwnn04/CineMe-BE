@@ -3,6 +3,10 @@ spring:
     import: file:env.properties
   application:
     name: CineMe-BE
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
 
   datasource:
     url: ${DB_URL}

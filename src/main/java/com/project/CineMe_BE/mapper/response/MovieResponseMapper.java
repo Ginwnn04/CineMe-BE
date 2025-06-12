@@ -1,17 +1,49 @@
 package com.project.CineMe_BE.mapper.response;
 
+import com.project.CineMe_BE.dto.response.ActorResponse;
 import com.project.CineMe_BE.dto.response.MovieResponse;
+import com.project.CineMe_BE.entity.ActorEntity;
 import com.project.CineMe_BE.entity.MovieEntity;
 import com.project.CineMe_BE.mapper.BaseResponseMapper;
+import com.project.CineMe_BE.utils.DomainUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring", uses = {ActorResponseMapper.class})
+import java.util.List;
+
+@Mapper(componentModel = "spring")
 public interface MovieResponseMapper extends BaseResponseMapper<MovieResponse, MovieEntity> {
 
     @Mapping(target = "limitageNameVn", source = "limitage.nameVn")
     @Mapping(target = "limitageNameEn", source = "limitage.nameEn")
     @Mapping(target = "languageNameVn", source = "language.nameVn")
     @Mapping(target = "languageNameEn", source = "language.nameEn")
+    @Mapping(target = "trailer", source = "trailer", qualifiedByName = "mapTrailer")
+    @Mapping(target = "listActor", source = "listActor", qualifiedByName = "mapActor")
     MovieResponse toDto(MovieEntity entity);
+
+
+
+    @Named("mapActor")
+    default List<ActorResponse> mapActor(List<ActorEntity> listActor) {
+        return listActor.stream()
+                .map(actor -> ActorResponse.builder()
+                        .id(actor.getId())
+                        .name(actor.getName())
+                        .img(actor.getImg())
+                        .build())
+                .toList();
+    }
+
+    @Named("mapTrailer")
+    default String mapTrailer(String trailer) {
+        if (trailer == null || trailer.isEmpty()) {
+            return "";
+        }
+        else if (trailer.indexOf("resources") == -1) {
+            return "https://www.youtube.com/watch?v=" + trailer;
+        }
+        return DomainUtil.MINIO_DOMAIN + trailer;
+    }
 }

@@ -11,6 +11,7 @@ import com.project.CineMe_BE.repository.ActorRepository;
 import com.project.CineMe_BE.service.ActorService;
 import com.project.CineMe_BE.service.MinioService;
 import com.project.CineMe_BE.utils.LocalizationUtils;
+import com.project.CineMe_BE.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +43,7 @@ public class ActorServiceImpl implements ActorService {
         ActorEntity actor = actorRequestMapper.toEntity(actorRequest);
         if (actorRequest.getImg() != null) {
             String imgUrl = minioService.upload(actorRequest.getImg());
-            imgUrl = imgUrl.substring(imgUrl.indexOf("resource"), imgUrl.indexOf("?"));
-            actor.setImg(imgUrl);
+            actor.setImg(StringUtil.splitUrlResource(imgUrl));
         }
         return actorResponseMapper.toDto(actorRepository.save(actor));
     }
