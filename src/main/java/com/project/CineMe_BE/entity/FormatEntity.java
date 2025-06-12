@@ -1,16 +1,19 @@
 package com.project.CineMe_BE.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.UUID;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 @Entity
-@Table(name = "languages")
+@Table(name = "formats")
 @Setter
 @Getter
-public class LanguageEntity {
+public class FormatEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue
@@ -21,5 +24,4 @@ public class LanguageEntity {
 
     @Column(name = "name_en")
     private String nameEn;
-
 }
