@@ -4,10 +4,10 @@ import org.mapstruct.Mapper;
 
 import com.project.CineMe_BE.dto.response.LimitAgeResponse;
 import com.project.CineMe_BE.entity.LimitageEntity;
-import com.project.CineMe_BE.mapper.BaseMapperResponse;
+import com.project.CineMe_BE.mapper.BaseResponseMapper;
 
 @Mapper(componentModel = "spring")
-public interface LimitAgeResponseMapper extends BaseMapperResponse<LimitAgeResponse , LimitageEntity> {
+public interface LimitAgeResponseMapper extends BaseResponseMapper<LimitAgeResponse , LimitageEntity> {
 
     
 }
