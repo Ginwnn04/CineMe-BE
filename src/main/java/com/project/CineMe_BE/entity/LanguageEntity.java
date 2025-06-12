@@ -13,6 +13,7 @@ import java.util.UUID;
 public class LanguageEntity {
     @Id
     @Column(name = "id")
+    @GeneratedValue
     private UUID id;
 
     @Column(name = "name_vn")
