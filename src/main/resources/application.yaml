@@ -12,6 +12,7 @@ spring:
     hikari:
       maximum-pool-size: 10
 
+
   jpa:
       hibernate:
           ddl-auto: none
@@ -24,4 +25,5 @@ spring:
           batch_size: 100
           order_inserts: true
           generate_statistics: true
+
 

@@ -1,7 +1,7 @@
 package com.project.CineMe_BE.controller;
 
-import com.project.CineMe_BE.dto.response.SeatResponse;
 import com.project.CineMe_BE.dto.APIResponse;
+import com.project.CineMe_BE.dto.response.SeatResponse;
 import com.project.CineMe_BE.service.SeatService;
 import lombok.RequiredArgsConstructor;
 
