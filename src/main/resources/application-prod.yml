@@ -1,6 +1,6 @@
 spring:
   config:
-    import: file:env.properties
+    import: file:/app/env.properties
   application:
     name: CineMe-BE
   servlet:
@@ -18,13 +18,10 @@ spring:
 
 
   jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
       hibernate:
-          ddl-auto: none
-      show-sql: true
-      properties:
-          hibernate:
-            format_sql: true
-            use_sql_comments: true
-
-
-
+        format_sql: true
+        use_sql_comments: true

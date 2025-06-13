@@ -19,8 +19,8 @@ public class MovieResponse {
     private String nameVn;
     private String nameEn;
     private String director;
-    private UUID countryId;
-    private UUID formatId;
+//    private UUID countryId;
+//    private UUID formatId;
     private LocalDateTime releaseDate;
     private LocalDateTime endDate;
     private String briefVn;

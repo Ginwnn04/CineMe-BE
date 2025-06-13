@@ -6,6 +6,7 @@ import com.project.CineMe_BE.entity.ActorEntity;
 import com.project.CineMe_BE.entity.MovieEntity;
 import com.project.CineMe_BE.mapper.BaseResponseMapper;
 import com.project.CineMe_BE.utils.DomainUtil;
+import com.project.CineMe_BE.utils.StringUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -20,6 +21,7 @@ public interface MovieResponseMapper extends BaseResponseMapper<MovieResponse, M
     @Mapping(target = "languageNameVn", source = "language.nameVn")
     @Mapping(target = "languageNameEn", source = "language.nameEn")
     @Mapping(target = "trailer", source = "trailer", qualifiedByName = "mapTrailer")
+    @Mapping(target = "image", source = "image", qualifiedByName = "mapImage")
     @Mapping(target = "listActor", source = "listActor", qualifiedByName = "mapActor")
     MovieResponse toDto(MovieEntity entity);
 
@@ -27,6 +29,9 @@ public interface MovieResponseMapper extends BaseResponseMapper<MovieResponse, M
 
     @Named("mapActor")
     default List<ActorResponse> mapActor(List<ActorEntity> listActor) {
+        if (listActor == null) {
+            return null;
+        }
         return listActor.stream()
                 .map(actor -> ActorResponse.builder()
                         .id(actor.getId())
@@ -38,12 +43,11 @@ public interface MovieResponseMapper extends BaseResponseMapper<MovieResponse, M
 
     @Named("mapTrailer")
     default String mapTrailer(String trailer) {
-        if (trailer == null || trailer.isEmpty()) {
-            return "";
-        }
-        else if (trailer.indexOf("resources") == -1) {
-            return "https://www.youtube.com/watch?v=" + trailer;
-        }
-        return DomainUtil.MINIO_DOMAIN + trailer;
+        return StringUtil.mapTrailer(trailer);
+    }
+
+    @Named("mapImage")
+    default String mapImage(String image) {
+        return StringUtil.mapImg(image);
     }
 }
