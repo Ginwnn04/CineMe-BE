@@ -11,6 +11,7 @@ import java.util.UUID;
 @Builder
 public class SeatRequest {
     private UUID roomId;
-    private HashMap< String , List<String> > specialSeats;
+    private HashMap< String , Integer> specialSeats;
+    //string : "VIP", "Couple" , Integer : Row 
     
 }
