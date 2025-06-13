@@ -33,3 +33,5 @@ build/
 ### VS Code ###
 .vscode/
 minio-data/
+!target/CineMe-BE-0.0.1-SNAPSHOT.jar
+!target/CineMe-BE-0.0.1-SNAPSHOT.jar.original
