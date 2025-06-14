@@ -31,19 +31,38 @@ public class MovieController {
                 .build());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<APIResponse> updateMovie(@PathVariable UUID id, @ModelAttribute MovieRequest request) {
+        MovieResponse movieResponse = movieService.updateMovie(id, request);
+        return ResponseEntity.ok(APIResponse.builder()
+                .statusCode(200)
+                .message(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_UPDATE_SUCCESS))
+                .data(movieResponse)
+                .build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<APIResponse> deleteMovie(@PathVariable UUID id) {
+        movieService.deleteMovie(id);
+        return ResponseEntity.ok(APIResponse.builder()
+                .statusCode(200)
+                .message(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_DELETE_SUCCESS))
+                .build());
+    }
+
     @GetMapping("")
     public ResponseEntity<APIResponse> getAllMovie() {
         return ResponseEntity.ok(APIResponse.builder()
                 .statusCode(200)
                 .message("Get all movies successfully")
-                .data(movieService.getAllMovie())
+                .data(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_GET_ALL_SUCCESS))
                 .build());
     }
     @GetMapping("/{id}/detail")
     public ResponseEntity<APIResponse> getMovieDetail(@PathVariable UUID id) {
         return ResponseEntity.ok(APIResponse.builder()
                 .statusCode(200)
-                .message("Get movie detail successfully")
+                .message(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_GET_DETAILS))
                 .data(movieService.getMovieDetail(id)) // Replace with actual movie detail data when implemented
                 .build());
     }

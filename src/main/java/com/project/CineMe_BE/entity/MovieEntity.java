@@ -29,11 +29,6 @@ public class MovieEntity {
     @Column(name = "director")
     private String director;
 
-    @Column(name = "country_id")
-    private UUID countryId;
-
-    @Column(name = "format_id")
-    private UUID formatId;
 
     @Column(name = "release_date")
     private LocalDateTime releaseDate;
@@ -64,6 +59,15 @@ public class MovieEntity {
 
     @Column(name = "time")
     private Long time;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private CountryEntity country;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "format_id")
+    private FormatEntity format;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "limitage_id")
