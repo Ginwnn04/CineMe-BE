@@ -31,7 +31,7 @@ public class MovieController {
                 .build());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<APIResponse> updateMovie(@PathVariable UUID id, @ModelAttribute MovieRequest request) {
         MovieResponse movieResponse = movieService.updateMovie(id, request);
         return ResponseEntity.ok(APIResponse.builder()
