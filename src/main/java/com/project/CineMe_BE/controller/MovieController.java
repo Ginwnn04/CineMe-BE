@@ -54,8 +54,8 @@ public class MovieController {
     public ResponseEntity<APIResponse> getAllMovie() {
         return ResponseEntity.ok(APIResponse.builder()
                 .statusCode(200)
-                .message("Get all movies successfully")
-                .data(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_GET_ALL_SUCCESS))
+                .message(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_GET_ALL_SUCCESS))
+                .data(movieService.getAllMovie())
                 .build());
     }
     @GetMapping("/{id}/detail")

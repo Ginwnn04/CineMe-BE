@@ -18,12 +18,18 @@ public interface MovieResponseMapper extends BaseResponseMapper<MovieResponse, M
 
     @Mapping(target = "limitageNameVn", source = "limitage.nameVn")
     @Mapping(target = "limitageNameEn", source = "limitage.nameEn")
+    @Mapping(target = "countryVn", source = "country.nameVn")
+    @Mapping(target = "countryEn", source = "country.nameEn")
+    @Mapping(target = "format", source = "format.nameVn")
     @Mapping(target = "languageNameVn", source = "language.nameVn")
     @Mapping(target = "languageNameEn", source = "language.nameEn")
     @Mapping(target = "trailer", source = "trailer", qualifiedByName = "mapTrailer")
     @Mapping(target = "image", source = "image", qualifiedByName = "mapImage")
     @Mapping(target = "listActor", source = "listActor", qualifiedByName = "mapActor")
     MovieResponse toDto(MovieEntity entity);
+
+
+
 
 
 
