@@ -1,0 +1,12 @@
+package com.project.CineMe_BE.mapper.response;
+
+import org.mapstruct.Mapper;
+
+import com.project.CineMe_BE.dto.response.RoomResponse;
+import com.project.CineMe_BE.entity.RoomsEntity;
+import com.project.CineMe_BE.mapper.BaseResponseMapper;
+
+@Mapper(componentModel = "spring")
+public interface RoomResponseMapper extends BaseResponseMapper<RoomResponse , RoomsEntity > {
+    
+}

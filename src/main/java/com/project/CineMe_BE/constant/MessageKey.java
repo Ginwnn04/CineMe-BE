@@ -54,4 +54,7 @@ public class MessageKey {
     public static final String LANGUAGE_DELETE_SUCCESS = "language.delete_success";
     public static final String LANGUAGE_NOT_FOUND = "language.not_found";
     public static final String LANGUAGE_GET_DETAILS = "language.get_details";
+
+    //Room 
+    public static final String ROOM_CREATE_SUCCESS = "room.create_success";
 }
