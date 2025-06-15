@@ -28,6 +28,13 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRequestMapper movieRequestMapper;
     private final MinioService minioService;
 
+
+    @Override
+    public List<MovieResponse> getAvailableMovies() {
+        List<MovieEntity> listMovie = movieRepository.getAvailableMovies();
+        return movieResponseMapper.toListDto(listMovie);
+    }
+
     @Override
     public MovieResponse createMovie(MovieRequest request) {
         MovieEntity movie = movieRequestMapper.toEntity(request);

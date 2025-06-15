@@ -21,6 +21,10 @@ import java.util.UUID;
 public class MovieController {
     private final MovieService movieService;
     private final LocalizationUtils localizationUtils;
+
+
+
+
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<APIResponse> createMovie(@ModelAttribute MovieRequest request) {
         MovieResponse movieResponse = movieService.createMovie(request);
@@ -58,6 +62,17 @@ public class MovieController {
                 .data(movieService.getAllMovie())
                 .build());
     }
+
+    @GetMapping("/available")
+    public ResponseEntity<APIResponse> getAvailableMovies() {
+        List<MovieResponse> availableMovies = movieService.getAvailableMovies();
+        return ResponseEntity.ok(APIResponse.builder()
+                .statusCode(200)
+                .message("Dang chieu")
+                .data(availableMovies)
+                .build());
+    }
+
     @GetMapping("/{id}/detail")
     public ResponseEntity<APIResponse> getMovieDetail(@PathVariable UUID id) {
         return ResponseEntity.ok(APIResponse.builder()

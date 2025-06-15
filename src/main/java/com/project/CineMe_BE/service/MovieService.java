@@ -15,5 +15,6 @@ public interface MovieService {
     public void deleteMovie(UUID id);
 
     public MovieResponse updateMovie(UUID id, MovieRequest request);
+    public List<MovieResponse> getAvailableMovies();
 
 }
