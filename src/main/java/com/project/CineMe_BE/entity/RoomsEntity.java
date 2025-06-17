@@ -20,11 +20,12 @@ public class RoomsEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "room_type_id")
-    private UUID roomTypeId;
+    @Column(name = "type")
+    private String type;
 
-    @Column(name = "theater_id")
-    private UUID theaterId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theater_id")
+    private TheaterEntity theater;
 
     @OneToMany(mappedBy = "roomId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SeatsEntity> seats;
