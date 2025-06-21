@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SeatsController {
     private final SeatService seatService;
     private final LocalizationUtils localizationUtils;
-    @PostMapping("/api/v1/seats")
-    public ResponseEntity<APIResponse> createSeats(@RequestBody SeatRequest seatRequest) {
-        Boolean isCreated = seatService.create(seatRequest);
-        APIResponse response = APIResponse.builder()
-                                          .message(localizationUtils.getLocalizedMessage(MessageKey.SEAT_CREATE_SUCCESS))
-                                          .data(isCreated)
-                                          .build();
-        return ResponseEntity.ok(response);
-    }
+    // @PostMapping
+    // public ResponseEntity<APIResponse> createSeats(@RequestBody SeatRequest seatRequest) {
+    //     Boolean isCreated = seatService.create(seatRequest);
+    //     APIResponse response = APIResponse.builder()
+    //                                       .message(localizationUtils.getLocalizedMessage(MessageKey.SEAT_CREATE_SUCCESS))
+    //                                       .data(isCreated)
+    //                                       .build();
+    //     return ResponseEntity.ok(response);
+    // }
 }
