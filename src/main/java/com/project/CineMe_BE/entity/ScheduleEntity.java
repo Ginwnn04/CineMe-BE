@@ -1,8 +1,7 @@
 package com.project.CineMe_BE.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -11,6 +10,9 @@ import java.util.UUID;
 @Table(name = "schedules")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
