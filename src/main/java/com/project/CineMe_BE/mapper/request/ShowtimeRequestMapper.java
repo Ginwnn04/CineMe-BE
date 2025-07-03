@@ -13,7 +13,6 @@ public interface ShowtimeRequestMapper extends BaseRequestMapper<ShowtimeRequest
     @Mapping(source = "roomId", target = "room", qualifiedByName = "mapToRoom")
     @Mapping(target = "startTime", expression = "java(dto.getStartTime().toLocalTime())")
     @Mapping(target = "endTime", expression = "java(dto.getEndTime().toLocalTime())")
-    @Mapping(target = "schedule", source = ".", qualifiedByName = "buildSchedule")
     ShowtimeEntity toEntity(ShowtimeRequest dto);
 
     @Mapping(target = "startTime", expression = "java(dto.getStartTime().toLocalTime())")
@@ -30,12 +29,4 @@ public interface ShowtimeRequestMapper extends BaseRequestMapper<ShowtimeRequest
         return id == null ? null : RoomsEntity.builder().id(id).build();
     }
 
-    @Named("buildSchedule")
-    static ScheduleEntity buildSchedule(ShowtimeRequest dto) {
-        if (dto.getStartTime() == null || dto.getMovieId() == null) return null;
-        return ScheduleEntity.builder()
-                .date(dto.getStartTime().toLocalDate())
-                .movie(MovieEntity.builder().id(dto.getMovieId()).build())
-                .build();
-    }
 }

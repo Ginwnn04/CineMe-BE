@@ -36,5 +36,13 @@ public class GlobalExceptionHandler {
                         .message("File size exceeds the maximum limit")
                         .build());
     }
+    @ExceptionHandler(DataNotValid.class)
+    public ResponseEntity<APIResponse> handleDataNotValidException(DataNotValid ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(APIResponse.builder()
+                        .statusCode(400)
+                        .message(ex.getMessage())
+                        .build());
+    }
 
 }
