@@ -18,6 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -29,7 +33,7 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     private final TheaterRepository theaterRepository;
     private final ScheduleRepository scheduleRepository;
     private final LocalizationUtils localizationUtils;
-    private final int lengthKey = 8;
+
     @Override
     @Transactional
     public boolean createShowtime(ShowtimeRequest showtime) {
@@ -39,10 +43,12 @@ public class ShowtimeServiceImpl implements ShowtimeService {
                 .orElseThrow(() -> new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_NOT_FOUND)));
         roomRepository.findByIdAndTheater_Id(showtime.getRoomId(), showtime.getTheaterId())
                 .orElseThrow(() -> new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.ROOM_NOT_FOUND)));
-        if (showtime.getStartTime().isAfter(showtime.getEndTime())) {
+        if (!isShowtimeValid(showtime.getStartTime(), showtime.getEndTime())) {
             throw new DataNotValid(localizationUtils.getLocalizedMessage(MessageKey.SHOWTIME_INVALID_TIME));
         }
-
+        if (isShowtimeConflict(showtime)) {
+            throw new DataNotValid(localizationUtils.getLocalizedMessage(MessageKey.SHOWTIME_CONFLICT));
+        }
         ScheduleEntity schedule = scheduleRepository.findByMovieIdAndDate(showtime.getMovieId(), showtime.getStartTime().toLocalDate())
                 .orElseGet(() -> {
                     ScheduleEntity newSchedule = ScheduleEntity.builder()
@@ -51,8 +57,6 @@ public class ShowtimeServiceImpl implements ShowtimeService {
                             .build();
                     return scheduleRepository.save(newSchedule);
                 });
-
-
         ShowtimeEntity entity = showtimeRequestMapper.toEntity(showtime);
         String key = generatePrivateKey();
         entity.setPrivateKey(key);
@@ -70,6 +74,22 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         return key;
     }
 
+    private boolean isShowtimeValid(LocalDateTime startTime, LocalDateTime endTime) {
+        return startTime.isBefore(endTime);
 
+    }
 
+    private boolean isShowtimeConflict(ShowtimeRequest request) {
+        List<ShowtimeEntity> existingShowtimes = showtimeRepository.findByTheaterAndRoom(
+                request.getTheaterId(), request.getRoomId(), request.getStartTime().toLocalDate());
+        boolean isConflict = existingShowtimes.stream()
+                .anyMatch(showtime -> {
+                    LocalTime existingStart = showtime.getStartTime();
+                    LocalTime existingEnd = showtime.getEndTime();
+                    LocalTime requestStart = request.getStartTime().toLocalTime();
+                    LocalTime requestEnd = request.getEndTime().toLocalTime();
+                    return requestStart.isBefore(existingEnd) && requestEnd.isAfter(existingStart);
+                });
+        return isConflict;
+    }
 }

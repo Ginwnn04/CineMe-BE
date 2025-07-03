@@ -74,5 +74,6 @@ public class MessageKey {
     public static final String SHOWTIME_CREATE_SUCCESS = "showtime.create_success";
     public static final String SHOWTIME_NOT_FOUND = "showtime.not_found";
     public static final String SHOWTIME_INVALID_TIME = "showtime.invalid_time";
+    public static final String SHOWTIME_CONFLICT = "showtime.conflict";
 
 }
