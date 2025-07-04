@@ -6,10 +6,9 @@ import com.project.CineMe_BE.dto.request.ShowtimeRequest;
 import com.project.CineMe_BE.service.ShowtimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/showtimes")
@@ -19,6 +18,14 @@ public class ShowtimeController {
     @PostMapping("")
     public ResponseEntity<APIResponse> createShowtime(@RequestBody ShowtimeRequest request) {
         showtimeService.createShowtime(request);
-        return null;
+        return ResponseEntity.status(201).body(APIResponse.builder()
+                        .statusCode(201)
+                        .message("Showtime created successfully")
+                        .build());
     }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<APIResponse> updateShowtime(@PathVariable UUID id, @RequestBody ShowtimeRequest request) {
+//        showtimeService.updateShowtime(id, request);
+//        return null;
+//    }
 }

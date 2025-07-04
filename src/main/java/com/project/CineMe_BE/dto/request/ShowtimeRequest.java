@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Getter
@@ -14,11 +15,9 @@ public class ShowtimeRequest {
     private UUID movieId;
     private UUID theaterId;
     private UUID roomId;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime startTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-
-    private LocalDateTime endTime;
+    private LocalDate date;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
 
 }

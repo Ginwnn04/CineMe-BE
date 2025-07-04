@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -49,10 +50,10 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         if (isShowtimeConflict(showtime)) {
             throw new DataNotValid(localizationUtils.getLocalizedMessage(MessageKey.SHOWTIME_CONFLICT));
         }
-        ScheduleEntity schedule = scheduleRepository.findByMovieIdAndDate(showtime.getMovieId(), showtime.getStartTime().toLocalDate())
+        ScheduleEntity schedule = scheduleRepository.findByMovieIdAndDate(showtime.getMovieId(), showtime.getDate())
                 .orElseGet(() -> {
                     ScheduleEntity newSchedule = ScheduleEntity.builder()
-                            .date(showtime.getStartTime().toLocalDate())
+                            .date(showtime.getDate())
                             .movie(MovieEntity.builder().id(showtime.getMovieId()).build())
                             .build();
                     return scheduleRepository.save(newSchedule);
@@ -66,6 +67,38 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         return true;
     }
 
+    @Override
+    public boolean updateShowtime(UUID id, ShowtimeRequest showtime) {
+        if (showtime.getTheaterId() != null) {
+            theaterRepository.findById(showtime.getTheaterId())
+                    .orElseThrow(() -> new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.THEATER_NOT_FOUND)));
+
+        }
+        if (showtime.getMovieId() != null) {
+            movieRepository.findById(showtime.getMovieId())
+                    .orElseThrow(() -> new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_NOT_FOUND)));
+        }
+        roomRepository.findByIdAndTheater_Id(showtime.getRoomId(), showtime.getTheaterId())
+                .orElseThrow(() -> new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.ROOM_NOT_FOUND)));
+        if (!isShowtimeValid(showtime.getStartTime(), showtime.getEndTime())) {
+            throw new DataNotValid(localizationUtils.getLocalizedMessage(MessageKey.SHOWTIME_INVALID_TIME));
+        }
+        if (isShowtimeConflict(showtime)) {
+            throw new DataNotValid(localizationUtils.getLocalizedMessage(MessageKey.SHOWTIME_CONFLICT));
+        }
+        ScheduleEntity schedule = scheduleRepository.findByMovieIdAndDate(showtime.getMovieId(), showtime.getDate())
+                .orElseGet(() -> {
+                    ScheduleEntity newSchedule = ScheduleEntity.builder()
+                            .date(showtime.getDate())
+                            .movie(MovieEntity.builder().id(showtime.getMovieId()).build())
+                            .build();
+                    return scheduleRepository.save(newSchedule);
+                });
+        ShowtimeEntity existingShowtime = showtimeRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.SHOWTIME_NOT_FOUND)));
+        showtimeRequestMapper.update(existingShowtime, showtime);
+        return showtimeRepository.save(existingShowtime) != null;
+    }
 
     private String generatePrivateKey() {
         long currentTimeMillis = System.currentTimeMillis();
@@ -74,20 +107,20 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         return key;
     }
 
-    private boolean isShowtimeValid(LocalDateTime startTime, LocalDateTime endTime) {
+    private boolean isShowtimeValid(LocalTime startTime, LocalTime endTime) {
         return startTime.isBefore(endTime);
 
     }
 
     private boolean isShowtimeConflict(ShowtimeRequest request) {
         List<ShowtimeEntity> existingShowtimes = showtimeRepository.findByTheaterAndRoom(
-                request.getTheaterId(), request.getRoomId(), request.getStartTime().toLocalDate());
+                request.getTheaterId(), request.getRoomId(), request.getDate());
         boolean isConflict = existingShowtimes.stream()
                 .anyMatch(showtime -> {
                     LocalTime existingStart = showtime.getStartTime();
                     LocalTime existingEnd = showtime.getEndTime();
-                    LocalTime requestStart = request.getStartTime().toLocalTime();
-                    LocalTime requestEnd = request.getEndTime().toLocalTime();
+                    LocalTime requestStart = request.getStartTime();
+                    LocalTime requestEnd = request.getEndTime();
                     return requestStart.isBefore(existingEnd) && requestEnd.isAfter(existingStart);
                 });
         return isConflict;

@@ -11,13 +11,9 @@ import java.util.UUID;
 public interface ShowtimeRequestMapper extends BaseRequestMapper<ShowtimeRequest, ShowtimeEntity> {
     @Mapping(source = "theaterId", target = "theater", qualifiedByName = "mapToTheater")
     @Mapping(source = "roomId", target = "room", qualifiedByName = "mapToRoom")
-    @Mapping(target = "startTime", expression = "java(dto.getStartTime().toLocalTime())")
-    @Mapping(target = "endTime", expression = "java(dto.getEndTime().toLocalTime())")
     ShowtimeEntity toEntity(ShowtimeRequest dto);
 
-    @Mapping(target = "startTime", expression = "java(dto.getStartTime().toLocalTime())")
-    @Mapping(target = "endTime", expression = "java(dto.getEndTime().toLocalTime())")
-    void update(@MappingTarget ShowtimeEntity entity, ShowtimeRequest dto);
+
 
     @Named("mapToTheater")
     static TheaterEntity mapToTheater(UUID id) {
