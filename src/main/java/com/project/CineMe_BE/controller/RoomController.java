@@ -22,13 +22,13 @@ import java.util.UUID;
 public class RoomController {
     private final SeatService seatService;
     private final LocalizationUtils localizationUtils;
-    @GetMapping("/{roomId}/seats")
-    public ResponseEntity<APIResponse> getSeatsByRoomId(@PathVariable("roomId") UUID roomId) {
-        List<SeatResponse> result = seatService.getSeatsByRoomId(roomId);
-         APIResponse response = APIResponse.builder()
-                                          .message(localizationUtils.getLocalizedMessage(MessageKey.SEAT_GET_LIST))
-                                          .data(result)
-                                          .build();
-        return ResponseEntity.ok(response);
-    }
+//    @GetMapping("/{roomId}/seats")
+//    public ResponseEntity<APIResponse> getSeatsByRoomId(@PathVariable("roomId") UUID roomId) {
+//        List<SeatResponse> result = seatService.getSeatsByRoomId(roomId);
+//         APIResponse response = APIResponse.builder()
+//                                          .message(localizationUtils.getLocalizedMessage(MessageKey.SEAT_GET_LIST))
+//                                          .data(result)
+//                                          .build();
+//        return ResponseEntity.ok(response);
+//    }
 }

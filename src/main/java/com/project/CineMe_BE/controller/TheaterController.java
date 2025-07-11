@@ -5,13 +5,16 @@ import com.project.CineMe_BE.dto.APIResponse;
 import com.project.CineMe_BE.dto.response.RoomResponse;
 import com.project.CineMe_BE.dto.response.ShowtimeResponse;
 import com.project.CineMe_BE.dto.response.TheaterResponse;
+import com.project.CineMe_BE.service.ShowtimeService;
 import com.project.CineMe_BE.service.TheaterService;
+import com.project.CineMe_BE.utils.DateFormatUltil;
 import com.project.CineMe_BE.utils.LocalizationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,9 +36,18 @@ public class TheaterController {
                         .build()
         );
     }
-
-
-
+    @GetMapping("/search")
+    public ResponseEntity<APIResponse> getTheatersByMovieAndDate(@RequestParam UUID movieId,
+                                                                 @RequestParam String date) {
+        List<TheaterResponse> listTheater = theaterService.getAllTheatersByMovieAndDate(movieId, DateFormatUltil.formatDate(date));
+        return ResponseEntity.ok(
+                APIResponse.builder()
+                        .statusCode(200)
+                        .message(localizationUtils.getLocalizedMessage(MessageKey.THEATER_GET_ALL_SUCCESS))
+                        .data(listTheater)
+                        .build()
+        );
+    }
     @GetMapping("/{id}/rooms")
     public ResponseEntity<APIResponse> getRoomsByTheaterId(@PathVariable UUID id) {
         List<RoomResponse> listRoom = theaterService.getRoomsByTheaterId(id);
@@ -48,6 +60,7 @@ public class TheaterController {
         );
     }
 
+    // Khi lay data ben admin
     @GetMapping("/{theaterId}/rooms/{roomId}/showtimes")
     public ResponseEntity<APIResponse> getRoomsByTheaterId(@PathVariable UUID theaterId,
                                                            @PathVariable UUID roomId,
@@ -61,4 +74,5 @@ public class TheaterController {
                         .build()
         );
     }
+
 }

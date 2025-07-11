@@ -27,5 +27,7 @@ public class TheaterEntity {
     @OneToMany(mappedBy = "theater")
     private List<RoomsEntity> listRoom;
 
+    @OneToMany(mappedBy = "theater")
+    private List<ShowtimeEntity> listShowtime;
 
 }

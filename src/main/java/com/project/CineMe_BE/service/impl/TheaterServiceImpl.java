@@ -55,4 +55,13 @@ public class TheaterServiceImpl implements TheaterService {
                 .map(showtimeResponseMapper::toDto)
                 .toList();
     }
+
+    @Override
+    public List<TheaterResponse> getAllTheatersByMovieAndDate(UUID movieId, LocalDate date) {
+        List<TheaterEntity> listTheater = theaterRepository.findAllByMovieIdAndDate(movieId, date);
+        if (listTheater.isEmpty()) {
+            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.THEATER_NOT_FOUND));
+        }
+        return theaterResponseMapper.toListDto(listTheater);
+    }
 }

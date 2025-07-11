@@ -2,12 +2,14 @@ package com.project.CineMe_BE.service.impl;
 
 import com.project.CineMe_BE.constant.MessageKey;
 import com.project.CineMe_BE.dto.request.ShowtimeRequest;
+import com.project.CineMe_BE.dto.response.ShowtimeResponse;
 import com.project.CineMe_BE.entity.MovieEntity;
 import com.project.CineMe_BE.entity.ScheduleEntity;
 import com.project.CineMe_BE.entity.ShowtimeEntity;
 import com.project.CineMe_BE.exception.DataNotFoundException;
 import com.project.CineMe_BE.exception.DataNotValid;
 import com.project.CineMe_BE.mapper.request.ShowtimeRequestMapper;
+import com.project.CineMe_BE.mapper.response.ShowtimeResponseMapper;
 import com.project.CineMe_BE.repository.*;
 import com.project.CineMe_BE.service.MovieService;
 import com.project.CineMe_BE.service.ShowtimeService;
@@ -18,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -28,6 +31,7 @@ import java.util.UUID;
 @Slf4j
 public class ShowtimeServiceImpl implements ShowtimeService {
     private final ShowtimeRequestMapper showtimeRequestMapper;
+    private final ShowtimeResponseMapper showtimeResponseMapper;
     private final ShowtimeRepository showtimeRepository;
     private final RoomRepository roomRepository;
     private final MovieRepository movieRepository;
@@ -98,6 +102,15 @@ public class ShowtimeServiceImpl implements ShowtimeService {
                 .orElseThrow(() -> new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.SHOWTIME_NOT_FOUND)));
         showtimeRequestMapper.update(existingShowtime, showtime);
         return showtimeRepository.save(existingShowtime) != null;
+    }
+
+    @Override
+    public List<ShowtimeResponse> getShowtimesByMovieIdAndTheaterIdAndDate(UUID movie, UUID theater, LocalDate date) {
+        List<ShowtimeEntity> showtimes = showtimeRepository.findByMovieIdAndTheaterIdAndDate(movie, theater, date);
+        if (showtimes.isEmpty()) {
+            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.SHOWTIME_NOT_FOUND));
+        }
+        return showtimeResponseMapper.toListDto(showtimes);
     }
 
     private String generatePrivateKey() {

@@ -13,5 +13,6 @@ public interface TheaterService {
     List<TheaterResponse> getAllTheaters();
     List<RoomResponse> getRoomsByTheaterId(UUID theaterId);
 
+    List<TheaterResponse> getAllTheatersByMovieAndDate(UUID movieId, LocalDate date);
     List<ShowtimeResponse> getShowtimesByTheaterAndRoom(UUID theaterId, UUID roomId, LocalDate date);
 }
