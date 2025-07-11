@@ -61,15 +61,15 @@ public class ShowtimeController {
                 .build());
     }
 
-    @GetMapping("/test")
-    public String testGetSeatsByShowtimeId(@RequestParam UUID showtimeId,
-                                            @RequestParam String seatNumber,
-                                            @RequestParam UUID userId) {
-        String redisKey = "seat-lock:" + showtimeId + ":" + seatNumber;
-        redisTemplate.opsForValue().set(redisKey, userId.toString());
-        redisTemplate.expire(redisKey, Duration.ofSeconds(60));
-        return "Oke";
-    }
+//    @GetMapping("/test")
+//    public String testGetSeatsByShowtimeId(@RequestParam UUID showtimeId,
+//                                            @RequestParam String seatNumber,
+//                                            @RequestParam UUID userId) {
+//        String redisKey = "seat-lock:" + showtimeId + ":" + seatNumber;
+//        redisTemplate.opsForValue().set(redisKey, userId.toString());
+//        redisTemplate.expire(redisKey, Duration.ofSeconds(60));
+//        return "Oke";
+//    }
 
 
 //    @PutMapping("/{id}")

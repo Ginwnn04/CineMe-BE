@@ -20,6 +20,7 @@ import com.project.CineMe_BE.repository.SeatsRepository;
 import lombok.*;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,8 +86,12 @@ public class SeatServiceImpl implements SeatService{
 
     @Override
     public List<SeatResponse> getSeatsByShowtime(UUID showtimeId) {
+        List<SeatsEntity> listSeats = getSeatsWithLockStatusByShowtimeId(showtimeId);
+        return seatResponseMapper.toListDto(listSeats);
+    }
 
 
+    private List<SeatsEntity> getSeatsWithLockStatusByShowtimeId(UUID showtimeId) {
         List<SeatWithStatusProjection> entityList = seatsRepository.findByShowtimeId(showtimeId);
         if (entityList == null && entityList.isEmpty()) {
             return new ArrayList<>();
@@ -106,9 +111,28 @@ public class SeatServiceImpl implements SeatService{
                 seat.setStatus("LOCKED");
             }
         }
-        return seatResponseMapper.toListDto(listSeats);
+        return listSeats;
     }
 
+
+    private boolean isAvailable(UUID showtimeId, String seatNumber) {
+        return getSeatsWithLockStatusByShowtimeId(showtimeId).stream()
+                .anyMatch(seat -> seat.getSeatNumber().equals(seatNumber) && seat.getStatus().equals("AVAILABLE"));
+    }
+
+    @Override
+    public boolean lockSeat(UUID showtimeId, String seatNumber, UUID userId) {
+        if (!isAvailable(showtimeId, seatNumber)) {
+            return false;
+        }
+        String redisKey = "seat-lock:" + showtimeId + ":" + seatNumber;
+        if (redisTemplate.hasKey(redisKey)) {
+            return false;
+        }
+        redisTemplate.opsForValue().set(redisKey, userId.toString());
+        redisTemplate.expire(redisKey, Duration.ofSeconds(60));
+        return true;
+    }
     private List<String> getSeatNumberLocked(UUID showtimeId) {
         String pattern = "seat-lock:" + showtimeId + ":*";
         ScanOptions options = ScanOptions.scanOptions().match(pattern).count(100).build();
@@ -122,4 +146,6 @@ public class SeatServiceImpl implements SeatService{
 
         return lockedSeats;
     }
+
+
 }

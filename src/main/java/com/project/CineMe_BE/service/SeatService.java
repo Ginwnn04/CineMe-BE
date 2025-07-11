@@ -12,4 +12,5 @@ public interface SeatService {
     public boolean create(SeatRequest seatRequest);
 
 
+    boolean lockSeat(UUID showtimeId, String seatNumber, UUID userId);
 }
