@@ -12,4 +12,9 @@ public interface MovieService {
     public List<MovieResponse> getAllMovie();
     public MovieResponse getMovieDetail(UUID id);
 
+    public void deleteMovie(UUID id);
+
+    public MovieResponse updateMovie(UUID id, MovieRequest request);
+    public List<MovieResponse> getAvailableMovies();
+
 }

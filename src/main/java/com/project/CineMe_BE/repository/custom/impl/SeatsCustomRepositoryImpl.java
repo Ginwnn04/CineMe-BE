@@ -29,7 +29,7 @@ public class SeatsCustomRepositoryImpl implements SeatsCustomRepository{
         int idx = 1;
         for (SeatsEntity seat : seats) {
             query.setParameter(idx++, UUID.randomUUID());
-            query.setParameter(idx++, seat.getRoomId());
+//            query.setParameter(idx++, seat.getRoomId());
             query.setParameter(idx++, seat.getSeatNumber());
             query.setParameter(idx++, seat.getSeatType());
             query.setParameter(idx++, seat.getIsActive());

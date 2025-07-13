@@ -19,7 +19,7 @@ public interface ActorResponseMapper extends BaseResponseMapper<ActorResponse, A
         ActorResponse actorResponse = ActorResponse.builder()
                 .id(entity.getId())
                 .name(entity.getName())
-                .img(StringUtil.mapImg(entity.getImg()))
+                .img(entity.getImg() != null ? StringUtil.mapImg(entity.getImg()) : null)
                 .listMovie(entity.getListMovie() != null ? entity.getListMovie().stream()
                         .map(movie -> {
                             return MovieResponse.builder()

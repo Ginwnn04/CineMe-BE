@@ -6,13 +6,13 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "limitages")
+@Table(name = "countries")
 @Setter
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LimitageEntity {
+public class CountryEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,10 +24,5 @@ public class LimitageEntity {
     @Column(name = "name_en")
     private String nameEn;
 
-    @Column(name = "desc_vn")
-    private String descVn;
-
-    @Column(name = "desc_en")
-    private String descEn;
 
 }

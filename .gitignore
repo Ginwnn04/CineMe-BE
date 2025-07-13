@@ -1,5 +1,4 @@
 HELP.md
-target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -33,5 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 minio-data/
-!target/CineMe-BE-0.0.1-SNAPSHOT.jar
-!target/CineMe-BE-0.0.1-SNAPSHOT.jar.original
+target/**
+!target/
+!target/**/*.jar

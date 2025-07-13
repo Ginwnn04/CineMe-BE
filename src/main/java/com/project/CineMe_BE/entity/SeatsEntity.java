@@ -18,8 +18,9 @@ public class SeatsEntity {
     @Column(name = "id", columnDefinition = "uuid")
     private UUID id;
 
-    @Column(name = "room_id", columnDefinition = "uuid")
-    private UUID roomId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", nullable = false)
+    private RoomsEntity room;
 
     @Column(name = "seat_number", length = 10)
     private String seatNumber;
@@ -30,6 +31,8 @@ public class SeatsEntity {
     @Column(name = "is_active")
     private Boolean isActive;
 
+
     // @Column(name = "status", length = 255)
     // private String status;
+
 }

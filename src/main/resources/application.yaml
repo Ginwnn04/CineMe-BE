@@ -15,16 +15,21 @@ spring:
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
+  cache:
+    type: redis
+    redis:
+      time-to-live: 30000 # 5 minutes
+
 
 
   jpa:
       hibernate:
           ddl-auto: none
       show-sql: true
-      properties:
-          hibernate:
-            format_sql: true
-            use_sql_comments: true
+#      properties:
+#          hibernate:
+#            format_sql: true
+#            use_sql_comments: true
 
 
 

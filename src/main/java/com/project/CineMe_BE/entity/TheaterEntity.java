@@ -1,6 +1,9 @@
 package com.project.CineMe_BE.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -12,8 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TheaterEntity {
     @Id
-    @GeneratedValue
-    @Column(name = "id", columnDefinition = "uuid")
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "name_vn")
@@ -21,5 +23,11 @@ public class TheaterEntity {
 
     @Column(name = "name_en")
     private String nameEn;
+
+    @OneToMany(mappedBy = "theater")
+    private List<RoomsEntity> listRoom;
+
+    @OneToMany(mappedBy = "theater")
+    private List<ShowtimeEntity> listShowtime;
 
 }

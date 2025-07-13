@@ -21,6 +21,10 @@ import java.util.UUID;
 public class MovieController {
     private final MovieService movieService;
     private final LocalizationUtils localizationUtils;
+
+
+
+
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<APIResponse> createMovie(@ModelAttribute MovieRequest request) {
         MovieResponse movieResponse = movieService.createMovie(request);
@@ -31,19 +35,49 @@ public class MovieController {
                 .build());
     }
 
+    @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<APIResponse> updateMovie(@PathVariable UUID id, @ModelAttribute MovieRequest request) {
+        MovieResponse movieResponse = movieService.updateMovie(id, request);
+        return ResponseEntity.ok(APIResponse.builder()
+                .statusCode(200)
+                .message(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_UPDATE_SUCCESS))
+                .data(movieResponse)
+                .build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<APIResponse> deleteMovie(@PathVariable UUID id) {
+        movieService.deleteMovie(id);
+        return ResponseEntity.ok(APIResponse.builder()
+                .statusCode(200)
+                .message(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_DELETE_SUCCESS))
+                .build());
+    }
+
     @GetMapping("")
     public ResponseEntity<APIResponse> getAllMovie() {
         return ResponseEntity.ok(APIResponse.builder()
                 .statusCode(200)
-                .message("Get all movies successfully")
+                .message(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_GET_ALL_SUCCESS))
                 .data(movieService.getAllMovie())
                 .build());
     }
+
+    @GetMapping("/available")
+    public ResponseEntity<APIResponse> getAvailableMovies() {
+        List<MovieResponse> availableMovies = movieService.getAvailableMovies();
+        return ResponseEntity.ok(APIResponse.builder()
+                .statusCode(200)
+                .message("Dang chieu")
+                .data(availableMovies)
+                .build());
+    }
+
     @GetMapping("/{id}/detail")
     public ResponseEntity<APIResponse> getMovieDetail(@PathVariable UUID id) {
         return ResponseEntity.ok(APIResponse.builder()
                 .statusCode(200)
-                .message("Get movie detail successfully")
+                .message(localizationUtils.getLocalizedMessage(MessageKey.MOVIE_GET_DETAILS))
                 .data(movieService.getMovieDetail(id)) // Replace with actual movie detail data when implemented
                 .build());
     }

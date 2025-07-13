@@ -1,10 +1,12 @@
 package com.project.CineMe_BE.dto.response;
 
-import lombok.Data;
-import java.util.UUID;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import java.util.UUID;
+
+@Getter
+@Setter
 public class RoomResponse {
     private UUID id;
     private String name;

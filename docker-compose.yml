@@ -5,9 +5,14 @@ services:
     extends:
       file: ./minio.yml
       service: minio
+  redis:
+    extends:
+      file: ./redis.yml
+      service: redis
   spring-app:
     extends:
       file: ./app.yml
       service: spring-app
     depends_on:
       - minio
+      - redis

@@ -1,12 +1,15 @@
 package com.project.CineMe_BE.repository;
 
-import java.util.UUID;
-
+import com.project.CineMe_BE.entity.RoomsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.project.CineMe_BE.entity.RoomsEntity;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-public interface RoomRepository extends JpaRepository<RoomsEntity , UUID >  {
-    // Additional query methods can be defined here if needed
-    
+public interface RoomRepository extends JpaRepository<RoomsEntity, UUID> {
+
+    List<RoomsEntity> findByTheaterId(UUID theaterId);
+
+    Optional<RoomsEntity> findByIdAndTheater_Id(UUID roomId, UUID theaterId);
 }
