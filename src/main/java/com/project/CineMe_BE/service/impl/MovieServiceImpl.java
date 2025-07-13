@@ -1,5 +1,6 @@
 package com.project.CineMe_BE.service.impl;
 
+import com.project.CineMe_BE.constant.CacheName;
 import com.project.CineMe_BE.constant.MessageKey;
 import com.project.CineMe_BE.dto.request.MovieRequest;
 import com.project.CineMe_BE.dto.response.MovieResponse;
@@ -13,6 +14,8 @@ import com.project.CineMe_BE.service.MovieService;
 import com.project.CineMe_BE.utils.LocalizationUtils;
 import com.project.CineMe_BE.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +31,15 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRequestMapper movieRequestMapper;
     private final MinioService minioService;
 
+
     @Override
+    public List<MovieResponse> getAvailableMovies() {
+        List<MovieEntity> listMovie = movieRepository.getAvailableMovies();
+        return movieResponseMapper.toListDto(listMovie);
+    }
+
+    @Override
+    @CacheEvict(value = CacheName.MOVIE, allEntries = true)
     public MovieResponse createMovie(MovieRequest request) {
         MovieEntity movie = movieRequestMapper.toEntity(request);
         if (request.getImage() != null) {
@@ -62,6 +73,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @Cacheable(value = CacheName.MOVIE, key = "'all'")
     public List<MovieResponse> getAllMovie() {
         List<MovieEntity> listMovie = movieRepository.findAll().stream()
                 .map(movie -> {
@@ -89,4 +101,7 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.delete(movie);
 
     }
+
+
+
 }

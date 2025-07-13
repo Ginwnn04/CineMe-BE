@@ -24,5 +24,4 @@ public class MovieRequest {
     private Long time;
     private UUID limitageId;
     private UUID languageId;
-
 }

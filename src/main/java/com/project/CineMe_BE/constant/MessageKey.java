@@ -56,4 +56,25 @@ public class MessageKey {
     public static final String LANGUAGE_DELETE_SUCCESS = "language.delete_success";
     public static final String LANGUAGE_NOT_FOUND = "language.not_found";
     public static final String LANGUAGE_GET_DETAILS = "language.get_details";
+
+
+
+    // Theater
+    public static final String THEATER_GET_ALL_SUCCESS = "theater.get_all_success";
+    public static final String THEATER_NOT_FOUND = "theater.not_found";
+
+
+    // Room
+
+    public static final String ROOM_GET_ALL_SUCCESS = "room.get_all_success";
+    public static final String ROOM_NOT_FOUND = "room.not_found";
+
+
+    // Showtime
+    public static final String SHOWTIME_GET_ALL_SUCCESS = "showtime.get_all_success";
+    public static final String SHOWTIME_CREATE_SUCCESS = "showtime.create_success";
+    public static final String SHOWTIME_NOT_FOUND = "showtime.not_found";
+    public static final String SHOWTIME_INVALID_TIME = "showtime.invalid_time";
+    public static final String SHOWTIME_CONFLICT = "showtime.conflict";
+
 }
