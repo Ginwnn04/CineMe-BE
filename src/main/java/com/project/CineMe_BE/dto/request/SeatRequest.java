@@ -1,7 +1,6 @@
 package com.project.CineMe_BE.dto.request;
 import lombok.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -11,6 +10,8 @@ import java.util.UUID;
 @Builder
 public class SeatRequest {
     private UUID roomId;
-    private HashMap< String , List<String> > specialSeats;
-    
+    private int col; // 1, 2, 3, ..., 18
+    private int row;// A, B, C, D, E, F, G, H
+    private HashMap< String ,String> specialSeats;
+    //string : "VIP", "Couple" , Integer : Row 
 }

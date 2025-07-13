@@ -15,6 +15,7 @@ import java.util.List;
 public class RoomsEntity {
     @Id
     @Column(name = "id")
+    @GeneratedValue
     private UUID id;
 
     @Column(name = "name")

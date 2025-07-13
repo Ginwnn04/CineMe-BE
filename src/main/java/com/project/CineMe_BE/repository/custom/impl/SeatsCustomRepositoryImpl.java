@@ -20,9 +20,9 @@ public class SeatsCustomRepositoryImpl implements SeatsCustomRepository{
     @Transactional
     public void bulkInsert(List<SeatsEntity> seats) {
         if (seats.isEmpty()) return;
-        StringBuilder sql = new StringBuilder("INSERT INTO seats (id,room_id ,seat_number, seat_type, is_active,status) VALUES ");
+        StringBuilder sql = new StringBuilder("INSERT INTO seats (id,room_id ,seat_number, seat_type, is_active) VALUES ");
         for (int i = 0; i < seats.size(); i++) {
-            sql.append("(? , ?, ?, ?, ?, ? )");
+            sql.append("(? , ?, ?, ?, ?)");
             if (i < seats.size() - 1) sql.append(",");
         }
         var query = entityManager.createNativeQuery(sql.toString());
@@ -33,7 +33,7 @@ public class SeatsCustomRepositoryImpl implements SeatsCustomRepository{
             query.setParameter(idx++, seat.getSeatNumber());
             query.setParameter(idx++, seat.getSeatType());
             query.setParameter(idx++, seat.getIsActive());
-            query.setParameter(idx++, seat.getStatus());
+            // query.setParameter(idx++, seat.getStatus());
         }
         query.executeUpdate();
     }

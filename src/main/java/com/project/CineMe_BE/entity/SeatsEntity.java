@@ -31,5 +31,8 @@ public class SeatsEntity {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    private String status;
+
+    // @Column(name = "status", length = 255)
+    // private String status;
+
 }

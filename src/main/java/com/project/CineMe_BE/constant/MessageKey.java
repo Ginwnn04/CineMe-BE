@@ -68,7 +68,7 @@ public class MessageKey {
 
     public static final String ROOM_GET_ALL_SUCCESS = "room.get_all_success";
     public static final String ROOM_NOT_FOUND = "room.not_found";
-
+    public static final String ROOM_CREATE_SUCCESS = "room.create_success";
 
     // Showtime
     public static final String SHOWTIME_GET_ALL_SUCCESS = "showtime.get_all_success";
