@@ -85,7 +85,7 @@ public class SeatServiceImpl implements SeatService{
                     .seatNumber(seat)
                     .seatType(allSeats.get(seat))
                     .isActive(true)
-                    .status("AVAILABLE")
+                    // .status("AVAILABLE")
                     .build();
             resultEntity.add(seatsEntity);
         }

@@ -10,5 +10,5 @@ import lombok.*;
 public class SeatResponse {
     private String seatNumber;
     private String seatType;
-    private String status;
+    // private String status;
 }
