@@ -33,6 +33,7 @@ public class SeatsEntity {
 
 
     // @Column(name = "status", length = 255)
-    // private String status;
+    @Transient
+    private String status;
 
 }

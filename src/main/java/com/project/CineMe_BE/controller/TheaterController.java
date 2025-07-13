@@ -26,7 +26,6 @@ import java.util.UUID;
 public class TheaterController {
     private final TheaterService theaterService;
     private final LocalizationUtils localizationUtils;
-    private final 
     @GetMapping("")
     public ResponseEntity<APIResponse> getTheaters() {
         List<TheaterResponse> listTheater = theaterService.getAllTheaters();

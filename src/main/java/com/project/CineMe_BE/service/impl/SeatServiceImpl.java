@@ -17,6 +17,8 @@ import com.project.CineMe_BE.entity.SeatsEntity;
 import com.project.CineMe_BE.repository.RoomRepository;
 import com.project.CineMe_BE.repository.SeatsRepository;
 import lombok.*;
+
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -127,15 +129,15 @@ public class SeatServiceImpl implements SeatService{
             entity.setId(projection.getId());
             entity.setSeatNumber(projection.getSeatNumber());
             entity.setSeatType(projection.getSeatType());
-            // entity.setStatus(projection.getStatus());
+             entity.setStatus(projection.getStatus());
             listSeats.add(entity);
         }
-        // List<String> lockedSeats = getSeatNumberLocked(showtimeId);
-        // for (SeatsEntity seat : listSeats) {
-        //     if (lockedSeats.contains(seat.getSeatNumber())) {
-        //         seat.setStatus("LOCKED");
-        //     }
-        // }
+         List<String> lockedSeats = getSeatNumberLocked(showtimeId);
+         for (SeatsEntity seat : listSeats) {
+             if (lockedSeats.contains(seat.getSeatNumber())) {
+                 seat.setStatus("LOCKED");
+             }
+         }
         return listSeats;
     }
 
