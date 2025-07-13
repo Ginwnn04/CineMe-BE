@@ -2,6 +2,7 @@ package com.project.CineMe_BE.controller;
 
 import com.project.CineMe_BE.constant.MessageKey;
 import com.project.CineMe_BE.dto.APIResponse;
+import com.project.CineMe_BE.dto.request.RoomRequest;
 import com.project.CineMe_BE.dto.response.RoomResponse;
 import com.project.CineMe_BE.dto.response.ShowtimeResponse;
 import com.project.CineMe_BE.dto.response.TheaterResponse;
@@ -25,7 +26,7 @@ import java.util.UUID;
 public class TheaterController {
     private final TheaterService theaterService;
     private final LocalizationUtils localizationUtils;
-
+    private final 
     @GetMapping("")
     public ResponseEntity<APIResponse> getTheaters() {
         List<TheaterResponse> listTheater = theaterService.getAllTheaters();
@@ -76,13 +77,12 @@ public class TheaterController {
         );
     }
 
-}
-
-@PostMapping
+    @PostMapping
     public ResponseEntity<APIResponse> create(@RequestBody RoomRequest request) {
         return ResponseEntity.ok(APIResponse.builder()
                 .statusCode(201)
                 .message(localizationUtils.getLocalizedMessage(MessageKey.ROOM_CREATE_SUCCESS))
-                .data(service.createRoom(request))
+                .data(theaterService.createRoom(request))
                 .build());
     }
+}

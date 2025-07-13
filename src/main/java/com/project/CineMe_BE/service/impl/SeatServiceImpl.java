@@ -12,7 +12,9 @@ import com.project.CineMe_BE.dto.request.SeatRequest;
 import com.project.CineMe_BE.dto.response.SeatResponse;
 import com.project.CineMe_BE.service.SeatService;
 import com.project.CineMe_BE.mapper.response.SeatResponseMapper;
+import com.project.CineMe_BE.entity.RoomsEntity;
 import com.project.CineMe_BE.entity.SeatsEntity;
+import com.project.CineMe_BE.repository.RoomRepository;
 import com.project.CineMe_BE.repository.SeatsRepository;
 import lombok.*;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class SeatServiceImpl implements SeatService{
     private final SeatResponseMapper seatResponseMapper;
     private final SeatsRepository seatsRepository;
     private final RedisTemplate<String, String> redisTemplate;
-
+    private final RoomRepository roomRepository;
     
     @Override
     @Cacheable(value = CacheName.SEAT, key = "#roomId")
@@ -76,7 +78,11 @@ public class SeatServiceImpl implements SeatService{
         return allSeats;
     }
 
-
+    //getRoom Entity by roomId
+    private RoomsEntity getRoomById(UUID roomId) {
+        return roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Room not found with id: " + roomId));
+    }
     
     @Override
     @Transactional
@@ -90,7 +96,7 @@ public class SeatServiceImpl implements SeatService{
 
         for (String seat : allSeats.keySet()) {
             SeatsEntity seatsEntity = SeatsEntity.builder()
-                    .roomId(roomId)
+                    .room(getRoomById(roomId))
                     .seatNumber(seat)
                     .seatType(allSeats.get(seat))
                     .isActive(true)
@@ -121,15 +127,15 @@ public class SeatServiceImpl implements SeatService{
             entity.setId(projection.getId());
             entity.setSeatNumber(projection.getSeatNumber());
             entity.setSeatType(projection.getSeatType());
-            entity.setStatus(projection.getStatus());
+            // entity.setStatus(projection.getStatus());
             listSeats.add(entity);
         }
-        List<String> lockedSeats = getSeatNumberLocked(showtimeId);
-        for (SeatsEntity seat : listSeats) {
-            if (lockedSeats.contains(seat.getSeatNumber())) {
-                seat.setStatus("LOCKED");
-            }
-        }
+        // List<String> lockedSeats = getSeatNumberLocked(showtimeId);
+        // for (SeatsEntity seat : listSeats) {
+        //     if (lockedSeats.contains(seat.getSeatNumber())) {
+        //         seat.setStatus("LOCKED");
+        //     }
+        // }
         return listSeats;
     }
 

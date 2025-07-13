@@ -7,6 +7,7 @@ import com.project.CineMe_BE.dto.response.TheaterResponse;
 import com.project.CineMe_BE.entity.RoomsEntity;
 import com.project.CineMe_BE.entity.TheaterEntity;
 import com.project.CineMe_BE.exception.DataNotFoundException;
+import com.project.CineMe_BE.mapper.request.RoomRequestMapper;
 import com.project.CineMe_BE.mapper.response.RoomResponseMapper;
 import com.project.CineMe_BE.mapper.response.ShowtimeResponseMapper;
 import com.project.CineMe_BE.mapper.response.TheaterResponseMapper;
@@ -15,12 +16,16 @@ import com.project.CineMe_BE.repository.ShowtimeRepository;
 import com.project.CineMe_BE.repository.TheaterRepository;
 import com.project.CineMe_BE.service.TheaterService;
 import com.project.CineMe_BE.utils.LocalizationUtils;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+
+import com.project.CineMe_BE.dto.request.RoomRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +37,9 @@ public class TheaterServiceImpl implements TheaterService {
     private final ShowtimeRepository showtimeRepository;
     private final ShowtimeResponseMapper showtimeResponseMapper;
     private final LocalizationUtils localizationUtils;
+    private final RoomRequestMapper requestMapper;
+    private final RoomRepository roomsRepository;
+    private final RoomResponseMapper responseMapper;
     @Override
     public List<TheaterResponse> getAllTheaters() {
         List<TheaterEntity> listTheater = theaterRepository.findAll();
@@ -64,4 +72,13 @@ public class TheaterServiceImpl implements TheaterService {
         }
         return theaterResponseMapper.toListDto(listTheater);
     }
+
+    @Override
+    public RoomResponse createRoom(RoomRequest request) {
+        RoomsEntity entity = requestMapper.toEntity(request);
+        roomsRepository.save(entity);    
+        return responseMapper.toDto(entity);
+    }
+
+    
 }
