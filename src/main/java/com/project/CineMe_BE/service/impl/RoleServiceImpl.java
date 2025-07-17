@@ -35,7 +35,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Cacheable(value = CacheName.ROLE , key = "':*'") // auto get and set cache
+    @Cacheable(value = CacheName.ROLE , key = "all") // auto get and set cache
     public List<RoleResponse> getAllRoles() {
         List<RoleEntity> listRoles = roleRepository.findAll();
         return roleResponseMapper.toListDto(listRoles);
