@@ -29,11 +29,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class SeatServiceImpl implements SeatService{
+    private final RoomRepository roomRepository;
     private final SeatResponseMapper seatResponseMapper;
     private final SeatsRepository seatsRepository;
     private final RedisTemplate<String, String> redisTemplate;
-    private final RoomRepository roomRepository;
-    
+
     @Override
     @Cacheable(value = CacheName.SEAT, key = "#roomId")
     public List<SeatResponse> getSeatsByRoomId(UUID roomId) {

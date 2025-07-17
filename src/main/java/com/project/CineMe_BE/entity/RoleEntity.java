@@ -16,6 +16,7 @@ import java.util.UUID;
 public class RoleEntity {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "name")

@@ -17,7 +17,7 @@ import java.util.UUID;
 public class MovieEntity {
     @Id
     @Column(name = "id")
-@GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "name_vn")
