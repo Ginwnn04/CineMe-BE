@@ -2,7 +2,7 @@ package com.project.CineMe_BE.dto.request;
 
 
 import lombok.*;
-@Data
+
 @Getter
 @Setter
 @Builder

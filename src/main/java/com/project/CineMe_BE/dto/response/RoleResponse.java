@@ -3,7 +3,7 @@ package com.project.CineMe_BE.dto.response;
 import lombok.*;
 
 
-@Data
+
 @Getter
 @Setter
 @NoArgsConstructor

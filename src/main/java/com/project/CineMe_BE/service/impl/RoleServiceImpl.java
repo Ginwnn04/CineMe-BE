@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRequestMapper roleRequestMapper;
     private final RedisTemplate<String, String> redisTemplate;
     private final ObjectMapper objectMapper;
-//    @Cacheable(value = CacheName.ROLE, key = "#id") // auto get and set cache
+
     private RoleEntity getRoleEntityRaw(UUID id){
         return roleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Role not found with id: " + id));
@@ -35,14 +35,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Cacheable(value = CacheName.ROLE , key = "'all'") // auto get and set cache
+    @Cacheable(value = CacheName.ROLE , key = "':*'") // auto get and set cache
     public List<RoleResponse> getAllRoles() {
         List<RoleEntity> listRoles = roleRepository.findAll();
         return roleResponseMapper.toListDto(listRoles);
     }
 
     @Override
-//    @Cacheable(value = CacheName.ROLE , key = "#id") // auto get and set cache
     public RoleResponse getRoleById(UUID id) {
         //Get Cache
         String cacheKey = CacheName.ROLE + ":" + id;
@@ -64,7 +63,7 @@ public class RoleServiceImpl implements RoleService {
         //Set Cache
         try {
             String json = objectMapper.writeValueAsString(response);
-            redisTemplate.opsForValue().set(cacheKey, json, Duration.ofSeconds(60)); // Set cache with TTL 15 mins
+            redisTemplate.opsForValue().set(cacheKey, json, Duration.ofMinutes(15)); // Set cache with TTL 15 mins
         }
         catch (Exception e) {
             throw new RuntimeException("Error writing RoleResponse to cache for id: " + id, e);
@@ -74,7 +73,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @CacheEvict(value = CacheName.ROLE, key = "'all'") // auto get and set cache
+    @CacheEvict(value = CacheName.ROLE, allEntries = true) // evict cache for all roles
     public RoleResponse createRole(RoleRequest request) {
         RoleEntity roleEntity = roleRequestMapper.toEntity(request);
         roleRepository.save(roleEntity);
