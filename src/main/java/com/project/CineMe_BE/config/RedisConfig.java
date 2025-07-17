@@ -22,10 +22,11 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfig {
-    @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory();
-    }
+
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        return new LettuceConnectionFactory();
+//    }
 
     @Bean
     RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {

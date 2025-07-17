@@ -49,7 +49,7 @@ public class SocketListener {
 //                senderClient.sendEvent("seat_locked", data);
             } else {
                 log.warn("Failed to lock seat {} for showtime {}", data.getSeatNumber(), data.getShowtimeId());
-                senderClient.sendEvent("seat_lock_failed", "Failed to lock seat " + data.getSeatNumber() + " for showtime " + data.getShowtimeId());
+                senderClient.getNamespace().getBroadcastOperations().sendEvent("seat_lock_failed", data);
             }
         };
     }

@@ -16,6 +16,21 @@ spring:
     hikari:
       maximum-pool-size: 10
 
+  data:
+    redis:
+      host: redis
+      port: 6379
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 30000 # 5 minutes
 
   jpa:
     hibernate:
