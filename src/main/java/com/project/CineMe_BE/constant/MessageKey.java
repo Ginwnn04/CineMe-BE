@@ -77,4 +77,13 @@ public class MessageKey {
     public static final String SHOWTIME_INVALID_TIME = "showtime.invalid_time";
     public static final String SHOWTIME_CONFLICT = "showtime.conflict";
 
+    // User
+    public static final String USER_NOT_FOUND = "user.not_found";
+
+    // Payment
+    public static final String PAYMENT_CREATE_URL_SUCCESS = "payment.create_url_success";
+    public static final String PAYMENT_CREATE_URL_FAILED = "payment.create_url_failed";
+
+    // Schedule
+    public static final String SCHEDULE_GET_ALL_SUCCESS = "schedule.get_all_success";
 }

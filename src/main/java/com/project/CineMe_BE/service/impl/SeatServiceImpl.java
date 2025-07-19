@@ -19,11 +19,8 @@ import com.project.CineMe_BE.repository.SeatsRepository;
 import lombok.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -148,7 +145,17 @@ public class SeatServiceImpl implements SeatService{
     }
 
     @Override
-    public boolean lockSeat(UUID showtimeId, String seatNumber, UUID userId) {
+    public boolean lockSeats(UUID showtimeId, Set<String> listSeats, UUID userId) {
+        listSeats.forEach(seatNumber -> {
+            if (!lockSeat(showtimeId, seatNumber, userId)) {
+                throw new IllegalArgumentException("Seat " + seatNumber + " is not available for showtime " + showtimeId);
+            }
+        });
+        return true;
+    }
+
+
+    private boolean lockSeat(UUID showtimeId, String seatNumber, UUID userId) {
         if (!isAvailable(showtimeId, seatNumber)) {
             return false;
         }
@@ -160,6 +167,7 @@ public class SeatServiceImpl implements SeatService{
         redisTemplate.expire(redisKey, Duration.ofSeconds(60));
         return true;
     }
+
     private List<String> getSeatNumberLocked(UUID showtimeId) {
         String pattern = "seat-lock:" + showtimeId + ":*";
         ScanOptions options = ScanOptions.scanOptions().match(pattern).count(100).build();

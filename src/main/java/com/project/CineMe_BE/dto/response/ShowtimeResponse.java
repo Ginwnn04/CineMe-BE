@@ -10,10 +10,14 @@ import java.util.UUID;
 @Setter
 public class ShowtimeResponse {
     private UUID id;
-    private String movieNameVn;
-    private String movieNameEn;
+//    private String movieNameVn;
+//    private String movieNameEn;
     private LocalTime startTime;
     private LocalTime endTime;
+    private String languageVn;
+    private String languageEn;
+    private String formatVn;
+    private String formatEn;
     private UUID roomId;
     private String roomName;
 

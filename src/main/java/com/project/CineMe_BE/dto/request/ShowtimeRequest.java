@@ -19,5 +19,4 @@ public class ShowtimeRequest {
     private LocalTime startTime;
     private LocalTime endTime;
 
-
 }

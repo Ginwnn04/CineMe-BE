@@ -33,6 +33,14 @@ public class ShowtimeEntity {
     @JoinColumn(name = "room_id")
     private RoomsEntity room;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "language_id")
+    private LanguageEntity language;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "format_id")
+    private FormatEntity format;
+
     @Column(name = "private_key")
     private String privateKey;
 

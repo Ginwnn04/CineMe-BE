@@ -14,7 +14,6 @@ public class MovieRequest {
     private String nameEn;
     private String director;
     private UUID countryId;
-    private UUID formatId;
     private LocalDateTime releaseDate;
     private LocalDateTime endDate;
     private String briefVn;
@@ -23,5 +22,4 @@ public class MovieRequest {
     private MultipartFile trailer;
     private Long time;
     private UUID limitageId;
-    private UUID languageId;
 }

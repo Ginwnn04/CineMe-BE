@@ -1,5 +1,6 @@
 package com.project.CineMe_BE.service;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.project.CineMe_BE.dto.request.SeatRequest;
@@ -12,5 +13,5 @@ public interface SeatService {
     public boolean create(SeatRequest seatRequest);
 
 
-    boolean lockSeat(UUID showtimeId, String seatNumber, UUID userId);
+    boolean lockSeats(UUID showtimeId, Set<String> listSeats, UUID userId);
 }

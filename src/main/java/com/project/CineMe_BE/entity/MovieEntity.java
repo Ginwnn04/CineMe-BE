@@ -17,7 +17,7 @@ import java.util.UUID;
 public class MovieEntity {
     @Id
     @Column(name = "id")
-@GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "name_vn")
@@ -28,7 +28,6 @@ public class MovieEntity {
 
     @Column(name = "director")
     private String director;
-
 
     @Column(name = "release_date")
     private LocalDateTime releaseDate;
@@ -64,18 +63,11 @@ public class MovieEntity {
     @JoinColumn(name = "country_id")
     private CountryEntity country;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "format_id")
-    private FormatEntity format;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "limitage_id")
     private LimitageEntity limitage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "language_id")
-    private LanguageEntity language;
 
     @Column(name = "sortorder")
     private Long sortorder;
@@ -88,4 +80,11 @@ public class MovieEntity {
     )
     private List<ActorEntity> listActor;
 
+    @ManyToMany
+    @JoinTable(
+            name = "movie_genres",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private List<GenreEntity> listGenre;
 }
