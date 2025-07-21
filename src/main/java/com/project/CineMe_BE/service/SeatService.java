@@ -1,5 +1,6 @@
 package com.project.CineMe_BE.service;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,6 +13,9 @@ public interface SeatService {
     public List<SeatResponse> getSeatsByShowtime(UUID showtimeId);
     public boolean create(SeatRequest seatRequest);
 
+    boolean lockSeats(UUID showtimeId, List<UUID> seatIds, UUID userId);
 
-    boolean lockSeats(UUID showtimeId, Set<String> listSeats, UUID userId);
+    List<UUID> getListSeatRedis(UUID showtimeId, UUID userId);
+
+    boolean deleteBookingLockRedis(UUID showtimeId, UUID userId);
 }

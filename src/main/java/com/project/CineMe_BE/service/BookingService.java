@@ -7,5 +7,6 @@ public interface BookingService {
 
     String createBooking(BookingRequest bookingRequest, HttpServletRequest request);
 
+    boolean confirmBooking(HttpServletRequest request);
 
 }

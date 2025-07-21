@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,5 +14,5 @@ import java.util.UUID;
 public class MessageSocket {
     private UUID showtimeId;
     private UUID userId;
-    private Set<String> seatNumber;
+    private List<UUID> seatIds;
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -12,5 +13,5 @@ public class BookingRequest {
     private UUID userId;
     private UUID showtimeId;
     private Long amount;
-    private HashMap<UUID, String> listSeats;
+    private List<UUID> listSeatId;
 }

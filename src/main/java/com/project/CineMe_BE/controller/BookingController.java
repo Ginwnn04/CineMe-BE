@@ -7,9 +7,11 @@ import com.project.CineMe_BE.service.BookingService;
 import com.project.CineMe_BE.utils.LocalizationUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/bookings")
@@ -35,7 +37,11 @@ public class BookingController {
 
     @GetMapping("/VnPayReturn")
     public ResponseEntity<APIResponse> vnPayReturn(HttpServletRequest request) {
-        return null;
-//        return ResponseEntity.status(apiResponse.getStatusCode()).body(apiResponse);
-    }
+        boolean isConfirmed = bookingService.confirmBooking(request);
+        return ResponseEntity.ok(
+                APIResponse.builder()
+                        .message(isConfirmed ? "Thanh cong" : "That bai")
+                        .statusCode(isConfirmed ? 200 : 400)
+                        .build()
+        );}
 }
