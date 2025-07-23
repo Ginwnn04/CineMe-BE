@@ -45,4 +45,8 @@ public interface ShowtimeRepository extends JpaRepository<ShowtimeEntity, UUID> 
             "LEFT JOIN FETCH s.schedule.movie.listGenre " +
             "WHERE s.theater.id = :theaterId AND s.schedule.date = :date")
     List<ShowtimeEntity> findByTheaterIdAndDate(UUID theaterId, LocalDate date);
+
+    @Query("SELECT s.privateKey FROM ShowtimeEntity s " +
+            "WHERE s.id = :showtimeId")
+    String getPriveKey(UUID showtimeId);
 }

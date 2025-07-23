@@ -1,15 +1,24 @@
 package com.project.CineMe_BE.controller;
 
+import com.google.zxing.WriterException;
 import com.project.CineMe_BE.constant.MessageKey;
 import com.project.CineMe_BE.dto.APIResponse;
 import com.project.CineMe_BE.dto.request.BookingRequest;
+import com.project.CineMe_BE.dto.response.PaymentResponse;
 import com.project.CineMe_BE.service.BookingService;
+import com.project.CineMe_BE.service.MinioService;
+import com.project.CineMe_BE.utils.AESUtil;
 import com.project.CineMe_BE.utils.LocalizationUtils;
+import com.project.CineMe_BE.utils.QrCodeUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.jcajce.provider.symmetric.AES;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -37,11 +46,28 @@ public class BookingController {
 
     @GetMapping("/VnPayReturn")
     public ResponseEntity<APIResponse> vnPayReturn(HttpServletRequest request) {
-        boolean isConfirmed = bookingService.confirmBooking(request);
+        PaymentResponse paymentResponse = bookingService.confirmBooking(request);
         return ResponseEntity.ok(
                 APIResponse.builder()
-                        .message(isConfirmed ? "Thanh cong" : "That bai")
-                        .statusCode(isConfirmed ? 200 : 400)
+                        .data(paymentResponse != null ? paymentResponse : "Payment confirmation failed")
+                        .statusCode(paymentResponse != null ? 200 : 400)
                         .build()
         );}
+
+//    @GetMapping("/encode")
+//    public String getQRCode(@RequestParam String booking,
+//                             @RequestParam String user) throws Exception {
+//        String name = booking + "_" + user;
+//        String encrypted = AESUtil.encrypt(name);
+////        MultipartFile file = QrCodeUtil.createQR(name, name);
+////        minioService.upload(file);
+//        return encrypted;
+//    }
+//    @GetMapping("/decode")
+//    public String decode(@RequestParam String code) throws Exception {
+//        String decoded = AESUtil.decrypt(code);
+////        MultipartFile file = QrCodeUtil.createQR(name, name);
+////        minioService.upload(file);
+//        return decoded;
+//    }
 }
