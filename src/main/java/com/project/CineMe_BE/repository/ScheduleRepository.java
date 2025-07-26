@@ -9,4 +9,5 @@ import java.util.UUID;
 
 public interface ScheduleRepository extends JpaRepository<ScheduleEntity, UUID> {
     Optional<ScheduleEntity> findByMovieIdAndDate(UUID movieId, LocalDate date);
+
 }

@@ -19,11 +19,9 @@ import com.project.CineMe_BE.repository.SeatsRepository;
 import lombok.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -118,6 +116,7 @@ public class SeatServiceImpl implements SeatService{
     }
 
 
+    // Can` optimmize
     private List<SeatsEntity> getSeatsWithLockStatusByShowtimeId(UUID showtimeId) {
         List<SeatWithStatusProjection> entityList = seatsRepository.findByShowtimeId(showtimeId);
         if (entityList == null && entityList.isEmpty()) {
@@ -129,12 +128,12 @@ public class SeatServiceImpl implements SeatService{
             entity.setId(projection.getId());
             entity.setSeatNumber(projection.getSeatNumber());
             entity.setSeatType(projection.getSeatType());
-             entity.setStatus(projection.getStatus());
+            entity.setStatus(projection.getStatus());
             listSeats.add(entity);
         }
-         List<String> lockedSeats = getSeatNumberLocked(showtimeId);
+         List<UUID> lockedSeats = getListSeatLocked(showtimeId);
          for (SeatsEntity seat : listSeats) {
-             if (lockedSeats.contains(seat.getSeatNumber())) {
+             if (lockedSeats.contains(seat.getId()) && seat.getStatus().equals("AVAILABLE")) {
                  seat.setStatus("LOCKED");
              }
          }
@@ -142,37 +141,90 @@ public class SeatServiceImpl implements SeatService{
     }
 
 
-    private boolean isAvailable(UUID showtimeId, String seatNumber) {
+    private boolean isAvailable(UUID showtimeId, UUID seatId) {
         return getSeatsWithLockStatusByShowtimeId(showtimeId).stream()
-                .anyMatch(seat -> seat.getSeatNumber().equals(seatNumber) && seat.getStatus().equals("AVAILABLE"));
+                .anyMatch(seat -> seat.getId().equals(seatId) && seat.getStatus().equals("AVAILABLE"));
     }
 
-    @Override
-    public boolean lockSeat(UUID showtimeId, String seatNumber, UUID userId) {
-        if (!isAvailable(showtimeId, seatNumber)) {
+    private boolean lockSeat(UUID showtimeId, UUID seatId, UUID userId) {
+        if (!isAvailable(showtimeId, seatId)) {
             return false;
         }
-        String redisKey = "seat-lock:" + showtimeId + ":" + seatNumber;
+        String redisKey = "seat-lock:" + showtimeId + ":" + seatId;
         if (redisTemplate.hasKey(redisKey)) {
             return false;
         }
         redisTemplate.opsForValue().set(redisKey, userId.toString());
-        redisTemplate.expire(redisKey, Duration.ofSeconds(60));
+        redisTemplate.expire(redisKey, Duration.ofMinutes(10));
         return true;
     }
-    private List<String> getSeatNumberLocked(UUID showtimeId) {
+
+    @Override
+    public boolean lockSeats(UUID showtimeId, List<UUID> seatIds, UUID userId) {
+        List<String> lockedKeys = new ArrayList<>();
+
+        for (UUID seatId : seatIds) {
+            // Rollback nếu có bất kỳ ghế nào không thể lock
+            if (!lockSeat(showtimeId, seatId, userId)) {
+                redisTemplate.delete(lockedKeys);
+                throw new IllegalArgumentException("Seat " + seatId + " is not available or already locked.");
+            }
+            else {
+                // Nếu lock thành công thì lưu key lại để rollback nếu cần
+                lockedKeys.add("seat-lock:" + showtimeId + ":" + seatId);
+            }
+        }
+        String bookingLockKey = "booking-lock:" + userId + ":" + showtimeId;
+        redisTemplate.opsForValue().set(
+                bookingLockKey,
+                seatIds.stream().map(UUID::toString).collect(Collectors.joining(",")),
+                Duration.ofMinutes(10)
+        );
+        return true;
+    }
+
+
+    private List<UUID> getListSeatLocked(UUID showtimeId) {
         String pattern = "seat-lock:" + showtimeId + ":*";
         ScanOptions options = ScanOptions.scanOptions().match(pattern).count(100).build();
         Cursor<byte[]> cursor = redisTemplate.getConnectionFactory().getConnection().scan(options);
-        List<String> lockedSeats = new ArrayList<>();
+        List<UUID> listSeatLocked = new ArrayList<>();
         while (cursor.hasNext()) {
             String key = new String(cursor.next());
-            String seatNumber = key.substring(key.lastIndexOf(":") + 1);
-            lockedSeats.add(seatNumber);
+            String seatId = key.substring(key.lastIndexOf(":") + 1);
+            listSeatLocked.add(UUID.fromString(seatId));
         }
 
-        return lockedSeats;
+        return listSeatLocked;
     }
 
+    @Override
+    public List<UUID> getListSeatRedis(UUID showtimeId, UUID userId) {
+        String bookingLockKey = "booking-lock:" + userId + ":" + showtimeId;
+        String seatIdsStr = redisTemplate.opsForValue().get(bookingLockKey);
+        if (seatIdsStr == null || seatIdsStr.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(seatIdsStr.split(","))
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public boolean deleteBookingLockRedis(UUID showtimeId, UUID userId) {
+        List<UUID> listSeatId = getListSeatRedis(showtimeId, userId);
+        if (listSeatId.isEmpty()) {
+            return false;
+        }
+        // Xóa từng ghế đã lock
+        for (UUID seatId : listSeatId) {
+            String seatLockKey = "seat-lock:" + showtimeId + ":" + seatId;
+            redisTemplate.delete(seatLockKey);
+        }
+        // Xoá booking
+        String bookingLockKey = "booking-lock:" + userId + ":" + showtimeId;
+        redisTemplate.delete(bookingLockKey);
+
+        return true;
+    }
 }

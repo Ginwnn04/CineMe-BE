@@ -11,7 +11,11 @@ public interface ShowtimeResponseMapper extends BaseResponseMapper<ShowtimeRespo
 
     @Mapping(target = "roomName", source = "room.name")
     @Mapping(target = "roomId", source = "room.id")
-    @Mapping(target = "movieNameVn", source = "schedule.movie.nameVn")
-    @Mapping(target = "movieNameEn", source = "schedule.movie.nameEn")
+//    @Mapping(target = "movieNameVn", source = "schedule.movie.nameVn")
+//    @Mapping(target = "movieNameEn", source = "schedule.movie.nameEn")
+    @Mapping(target = "languageVn", source = "language.nameVn")
+    @Mapping(target = "languageEn", source = "language.nameEn")
+    @Mapping(target = "formatVn", source = "format.nameVn")
+    @Mapping(target = "formatEn", source = "format.nameEn")
     ShowtimeResponse toDto(ShowtimeEntity entity);
 }

@@ -21,7 +21,7 @@ public class MovieResponse {
     private String director;
     private String countryVn;
     private String countryEn;
-    private String format;
+//    private String format;
     private LocalDateTime releaseDate;
     private LocalDateTime endDate;
     private String briefVn;
@@ -34,8 +34,8 @@ public class MovieResponse {
     private Long time;
     private String limitageNameVn;
     private String limitageNameEn;
-    private String languageNameVn;
-    private String languageNameEn;
+//    private String languageNameVn;
+//    private String languageNameEn;
     private Long sortorder;
     private List<ActorResponse> listActor;
 

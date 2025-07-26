@@ -77,7 +77,7 @@ public class MovieServiceImpl implements MovieService {
     public List<MovieResponse> getAllMovie() {
         List<MovieEntity> listMovie = movieRepository.findAll().stream()
                 .map(movie -> {
-                    movie.setLanguage(null);
+//                    movie.setLanguage(null);
                     movie.setLimitage(null);
                     movie.setCountry(null);
                     movie.setListActor(null);

@@ -11,9 +11,7 @@ import java.util.UUID;
 @Repository
 public interface MovieRepository extends JpaRepository<MovieEntity, UUID> {
     @Query("SELECT m FROM MovieEntity m  " +
-            "LEFT JOIN FETCH m.format " +
             "LEFT JOIN FETCH m.country " +
-            "LEFT JOIN FETCH m.language " +
             "LEFT JOIN FETCH m.limitage " +
             "LEFT JOIN FETCH m.listActor " +
             "WHERE m.releaseDate <= CURRENT_DATE AND m.endDate >= CURRENT_DATE")
