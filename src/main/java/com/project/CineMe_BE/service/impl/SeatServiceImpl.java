@@ -1,6 +1,6 @@
 package com.project.CineMe_BE.service.impl;
 
-import com.project.CineMe_BE.SeatWithStatusProjection;
+import com.project.CineMe_BE.repository.projection.SeatWithStatusProjection;
 import com.project.CineMe_BE.constant.CacheName;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.Cursor;

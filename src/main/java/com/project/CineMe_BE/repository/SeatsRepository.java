@@ -2,8 +2,7 @@ package com.project.CineMe_BE.repository;
 
 import java.util.UUID;
 
-import com.project.CineMe_BE.SeatWithStatusProjection;
-import io.lettuce.core.dynamic.annotation.Param;
+import com.project.CineMe_BE.repository.projection.SeatWithStatusProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.project.CineMe_BE.entity.SeatsEntity;
 import com.project.CineMe_BE.repository.custom.SeatsCustomRepository;

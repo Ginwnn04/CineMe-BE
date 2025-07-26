@@ -26,11 +26,19 @@ spring:
           max-active: 8
           max-idle: 8
           min-idle: 0
-
   cache:
     type: redis
     redis:
       time-to-live: 30000 # 5 minutes
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
+
 
   jpa:
     hibernate:

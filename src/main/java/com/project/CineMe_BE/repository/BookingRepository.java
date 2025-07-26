@@ -1,6 +1,6 @@
 package com.project.CineMe_BE.repository;
 
-import com.project.CineMe_BE.PaymentProjection;
+import com.project.CineMe_BE.repository.projection.PaymentProjection;
 import com.project.CineMe_BE.entity.BookingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

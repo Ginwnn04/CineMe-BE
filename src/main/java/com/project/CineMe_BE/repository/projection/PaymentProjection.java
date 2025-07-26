@@ -1,4 +1,4 @@
-package com.project.CineMe_BE;
+package com.project.CineMe_BE.repository.projection;
 
 import java.util.List;
 

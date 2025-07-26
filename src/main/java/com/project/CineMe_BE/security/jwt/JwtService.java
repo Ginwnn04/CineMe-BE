@@ -1,4 +1,4 @@
-package com.project.CineMe_BE.service;
+package com.project.CineMe_BE.security.jwt;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

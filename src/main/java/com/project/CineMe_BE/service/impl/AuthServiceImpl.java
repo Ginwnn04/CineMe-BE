@@ -7,7 +7,7 @@ import com.project.CineMe_BE.entity.UserEntity;
 import com.project.CineMe_BE.exception.DataNotFoundException;
 import com.project.CineMe_BE.repository.UserRepository;
 import com.project.CineMe_BE.service.AuthService;
-import com.project.CineMe_BE.service.JwtService;
+import com.project.CineMe_BE.security.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.project.CineMe_BE.service.impl;
 
 import com.google.zxing.WriterException;
-import com.project.CineMe_BE.PaymentProjection;
+import com.project.CineMe_BE.repository.projection.PaymentProjection;
 import com.project.CineMe_BE.constant.MessageKey;
 import com.project.CineMe_BE.dto.request.BookingRequest;
 import com.project.CineMe_BE.dto.response.PaymentResponse;
@@ -22,7 +22,6 @@ import com.project.CineMe_BE.utils.QrCodeUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
